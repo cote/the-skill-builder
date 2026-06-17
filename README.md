@@ -26,6 +26,30 @@ Flags:
 - `--no-install` — stop after the zip.
 - `--package` — also copy the zip to `dist/the-skill-builder.zip` and emit a CycloneDX SBOM at `dist/the-skill-builder.cdx.json` (tracked release artifacts).
 
+## Releasing
+
+To cut a new release (e.g. `1.1`):
+
+1. Bump `metadata.version` in `src/the-skill-builder/SKILL.md`.
+2. Add a `## 1.1 - YYYY-MM-DD` entry to `CHANGELOG.md`.
+3. Build the artifacts: `./build.sh --package`
+4. Commit, tag, and push:
+
+   ```bash
+   git add -A
+   git commit -m "Release v1.1"
+   git tag v1.1
+   git push origin main
+   git push origin v1.1
+   ```
+
+5. Create the GitHub release with both artifacts attached:
+
+   ```bash
+   gh release create v1.1 dist/the-skill-builder.zip dist/the-skill-builder.cdx.json \
+       --title "v1.1" --notes "See CHANGELOG.md for details."
+   ```
+
 ## Supply chain
 
 Each release ships with a CycloneDX 1.6 SBOM at `dist/the-skill-builder.cdx.json`. Validate it with:
