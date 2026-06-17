@@ -100,7 +100,7 @@ The deployable unit is the **directory** `target/<machine-name>/`. The zip is `t
 
 ### SBOM (CycloneDX)
 
-`./build.sh --package` writes a CycloneDX 1.5 SBOM to `dist/<machine-name>.cdx.json`. It declares the skill itself as the primary component (with MIT license and a SHA-256 hash of the zip) and lists runtime dependencies in `components`. For a no-deps skill, leave `components` as `[]`.
+`./build.sh --package` writes a CycloneDX 1.6 SBOM to `dist/<machine-name>.cdx.json`. It declares the skill itself as the primary component (with MIT license and a SHA-256 hash of the zip) and lists runtime dependencies in `components`. For a no-deps skill, leave `components` as `[]`.
 
 Validate it with:
 

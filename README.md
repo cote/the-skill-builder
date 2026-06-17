@@ -28,7 +28,7 @@ Flags:
 
 ## Supply chain
 
-Each release ships with a CycloneDX 1.5 SBOM at `dist/the-skill-builder.cdx.json`. Validate it with:
+Each release ships with a CycloneDX 1.6 SBOM at `dist/the-skill-builder.cdx.json`. Validate it with:
 
 ```bash
 cyclonedx-cli validate --input-file dist/the-skill-builder.cdx.json

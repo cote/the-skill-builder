@@ -64,7 +64,7 @@ if $PACKAGE; then
     cat > "$SBOM" <<EOF
 {
   "bomFormat": "CycloneDX",
-  "specVersion": "1.5",
+  "specVersion": "1.6",
   "serialNumber": "urn:uuid:$UUID",
   "version": 1,
   "metadata": {
