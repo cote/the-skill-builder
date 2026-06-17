@@ -1,11 +1,6 @@
 ---
 name: the-skill-builder
-description: >
-  The Skill Builder. Scaffolds a new standalone Claude Code skill: src/target
-  layout, a root build.sh that builds + zips + installs, XDG paths under
-  io.cote.ai.skill.<machine-name>, and prompt/template variants alongside
-  SKILL.md. Also checks POLICY.md when making or modifying a skill.
-  Use when asked to make a new skill, start a new skill, or scaffold a skill repo.
+description: The Skill Builder. Scaffolds a new standalone Claude Code skill. Use when asked to make a new skill, start a new skill, or scaffold a skill repo.
 compatibility: Requires bash and zip.
 metadata:
   author: cote
@@ -65,7 +60,7 @@ Prompt and template files live **next to SKILL.md**, not in `references/`:
 
 2. **Create the layout.** Make the dirs above. Empty `target/` is fine — `build.sh` populates it.
 
-3. **Write `.gitignore`** — at minimum: `.DS_Store`, `target/`.
+3. **Write `.gitignore`** — copy `references/GITIGNORE_TEMPLATE`. It covers build output, OS cruft, editor files, and the standard set of secret/credential filenames (`.env`, `*.key`, `*.pem`, SSH keys, cloud creds). Add language-specific lines if needed.
 
 4. **Write `README.md`** — display name as H1, description, install command, usage examples.
 
@@ -128,6 +123,7 @@ See `references/`:
 
 - `BUILD_SH_TEMPLATE.sh` — the combined build/zip/install script.
 - `SKILL_MD_TEMPLATE.md` — the frontmatter + sections starter.
+- `GITIGNORE_TEMPLATE` — the starting `.gitignore`, with build output, OS cruft, editor files, and a wide net of secret/credential patterns.
 
 ## Policy
 

@@ -20,7 +20,7 @@ Follow these rules and check for this policy when making and modifying a skill.
 
 9. **`build.sh` runs cleanly with `--no-install`.** A fresh clone plus `./build.sh --no-install` must produce `target/<machine-name>/` and `target/<machine-name>.zip` with no errors.
 
-10. **`.gitignore` excludes build output and OS cruft.** At minimum: `target/`, `.DS_Store`.
+10. **`.gitignore` covers build output, OS cruft, and secrets.** Use `references/GITIGNORE_TEMPLATE` as the starting point — it covers `target/`, `.DS_Store`, editor files, `.env`, `*.key`, `*.pem`, SSH keys, cloud-provider credential files, and similar. Adjust per language if needed.
 
 11. **README has display name as H1, install command, and brief usage.** A reader should know what the skill does and how to install it within ten seconds.
 
