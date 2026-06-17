@@ -53,6 +53,40 @@ if $PACKAGE; then
     mkdir -p "$DIST_DIR"
     cp "$ZIP" "$DIST_ZIP"
     echo "Packaged: $DIST_ZIP"
+
+    # Emit a CycloneDX SBOM alongside the zip.
+    # Fill in the description and any runtime/build dependencies in the
+    # "components" array (use scope "optional" for optional deps).
+    SBOM="$DIST_DIR/$SKILL_NAME.cdx.json"
+    ZIP_SHA="$(shasum -a 256 "$DIST_ZIP" | awk '{print $1}')"
+    TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    UUID="$(uuidgen | tr 'A-Z' 'a-z')"
+    cat > "$SBOM" <<EOF
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:$UUID",
+  "version": 1,
+  "metadata": {
+    "timestamp": "$TS",
+    "tools": [
+      { "vendor": "the-skill-builder", "name": "build.sh", "version": "1.0" }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "pkg:generic/$SKILL_NAME@1.0",
+      "name": "$SKILL_NAME",
+      "version": "1.0",
+      "description": "TODO: short description of this skill.",
+      "licenses": [ { "license": { "id": "MIT" } } ],
+      "authors": [ { "name": "TODO: author name" } ],
+      "hashes": [ { "alg": "SHA-256", "content": "$ZIP_SHA" } ]
+    }
+  },
+  "components": []
+}
+EOF
+    echo "SBOM:     $SBOM"
 fi
 
 if $INSTALL; then

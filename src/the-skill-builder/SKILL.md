@@ -94,9 +94,26 @@ When editing a skill (yours or someone else's), re-walk POLICY.md before you fin
 One script at the repo root does build + zip + install. Flags:
 
 - `--no-install` — skip copying into `$SKILL_INSTALL_DIR`.
-- `--package` — also copy the zip to `dist/<machine-name>.zip`, the tracked release artifact people can download directly from GitHub without cloning.
+- `--package` — also copy the zip to `dist/<machine-name>.zip` and emit a CycloneDX SBOM at `dist/<machine-name>.cdx.json`. Both are tracked release artifacts people can download directly from GitHub without cloning.
 
 The deployable unit is the **directory** `target/<machine-name>/`. The zip is `target/<machine-name>.zip`; `dist/<machine-name>.zip` is a committed copy for distribution.
+
+### SBOM (CycloneDX)
+
+`./build.sh --package` writes a CycloneDX 1.5 SBOM to `dist/<machine-name>.cdx.json`. It declares the skill itself as the primary component (with MIT license and a SHA-256 hash of the zip) and lists runtime dependencies in `components`. For a no-deps skill, leave `components` as `[]`.
+
+Validate it with:
+
+```bash
+cyclonedx-cli validate --input-file dist/<machine-name>.cdx.json
+```
+
+(Optional, enterprise theater) Sign and verify:
+
+```bash
+cyclonedx-cli sign bom dist/<machine-name>.cdx.json --key-file private.key
+cyclonedx-cli verify all dist/<machine-name>.cdx.json --key-file public.key
+```
 
 ### XDG namespace
 

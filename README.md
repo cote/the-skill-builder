@@ -24,7 +24,17 @@ Builds `target/the-skill-builder/`, zips it, and copies to `$SKILL_INSTALL_DIR` 
 Flags:
 
 - `--no-install` — stop after the zip.
-- `--package` — also copy the zip to `dist/the-skill-builder.zip` (the tracked release artifact).
+- `--package` — also copy the zip to `dist/the-skill-builder.zip` and emit a CycloneDX SBOM at `dist/the-skill-builder.cdx.json` (tracked release artifacts).
+
+## Supply chain
+
+Each release ships with a CycloneDX 1.5 SBOM at `dist/the-skill-builder.cdx.json`. Validate it with:
+
+```bash
+cyclonedx-cli validate --input-file dist/the-skill-builder.cdx.json
+```
+
+(`brew install cyclonedx-cli` if you don't have it.)
 
 ## Naming convention
 
