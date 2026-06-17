@@ -81,6 +81,8 @@ Prompt and template files live **next to SKILL.md**, not in `references/`:
 
 11. **Deploy** by running `./build.sh` (no flag). It copies `target/<machine-name>/` into `$SKILL_INSTALL_DIR` (defaults to `~/.claude/skills/`), making the skill immediately discoverable by Claude Code. Set `SKILL_INSTALL_DIR` in the environment to deploy somewhere else.
 
+12. **Package a release** with `./build.sh --package`. This copies the zip to `dist/<machine-name>.zip`, which is tracked in git so users can download it directly from GitHub without cloning the repo. Re-run `--package` whenever you cut a release; commit the updated zip.
+
 ## Modifying an existing skill
 
 When editing a skill (yours or someone else's), re-walk POLICY.md before you finish. The policy applies on every change, not just on creation.
@@ -89,9 +91,12 @@ When editing a skill (yours or someone else's), re-walk POLICY.md before you fin
 
 ### Combined build.sh
 
-One script at the repo root does build + zip + install. Pass `--no-install` to skip the install copy.
+One script at the repo root does build + zip + install. Flags:
 
-The deployable unit is the **directory** `target/<machine-name>/`. The zip is produced as `target/<machine-name>.zip` for distribution but isn't used by the local install path.
+- `--no-install` — skip copying into `$SKILL_INSTALL_DIR`.
+- `--package` — also copy the zip to `dist/<machine-name>.zip`, the tracked release artifact people can download directly from GitHub without cloning.
+
+The deployable unit is the **directory** `target/<machine-name>/`. The zip is `target/<machine-name>.zip`; `dist/<machine-name>.zip` is a committed copy for distribution.
 
 ### XDG namespace
 

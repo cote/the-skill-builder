@@ -4,11 +4,27 @@ A Claude Code skill that scaffolds a new standalone skill: `src/`/`target/` layo
 
 ## Install
 
+### Option A: download the release zip
+
+Grab [`dist/the-skill-builder.zip`](dist/the-skill-builder.zip) and unzip it into `~/.claude/skills/`:
+
+```bash
+curl -L -o the-skill-builder.zip https://github.com/<user>/the-skill-builder/raw/main/dist/the-skill-builder.zip
+unzip -d ~/.claude/skills/ the-skill-builder.zip
+```
+
+### Option B: clone and build
+
 ```bash
 ./build.sh
 ```
 
-Builds `target/the-skill-builder/`, zips it, and copies to `$SKILL_INSTALL_DIR` (defaults to `~/.claude/skills/`). Pass `--no-install` to stop after the zip.
+Builds `target/the-skill-builder/`, zips it, and copies to `$SKILL_INSTALL_DIR` (defaults to `~/.claude/skills/`).
+
+Flags:
+
+- `--no-install` — stop after the zip.
+- `--package` — also copy the zip to `dist/the-skill-builder.zip` (the tracked release artifact).
 
 ## Naming convention
 

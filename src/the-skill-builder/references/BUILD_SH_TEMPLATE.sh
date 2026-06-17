@@ -1,8 +1,14 @@
 #!/bin/bash
-# Assemble target/SKILL_NAME/, zip it, and install into $SKILL_INSTALL_DIR
-# (default: ~/.claude/skills). Pass --no-install to skip the install step.
+# Assemble target/SKILL_NAME/, zip it, install into $SKILL_INSTALL_DIR
+# (default: ~/.claude/skills), and optionally copy the zip to dist/ as a
+# committed release artifact.
 #
-# Replace SKILL_NAME with the actual skill name before using.
+# Flags (combinable, any order):
+#   --no-install   Skip the install step.
+#   --package      Copy the zip to dist/<machine-name>.zip (the tracked
+#                  release artifact people can download directly).
+#
+# Replace SKILL_NAME with the actual machine name before using.
 set -euo pipefail
 
 SKILL_NAME="SKILL_NAME"
@@ -11,11 +17,20 @@ SRC="$ROOT/src/$SKILL_NAME"
 TARGET_DIR="$ROOT/target"
 TARGET="$TARGET_DIR/$SKILL_NAME"
 ZIP="$TARGET_DIR/$SKILL_NAME.zip"
+DIST_DIR="$ROOT/dist"
+DIST_ZIP="$DIST_DIR/$SKILL_NAME.zip"
 DEST_ROOT="${SKILL_INSTALL_DIR:-$HOME/.claude/skills}"
 DEST="$DEST_ROOT/$SKILL_NAME"
 
 INSTALL=true
-[[ "${1:-}" == "--no-install" ]] && INSTALL=false
+PACKAGE=false
+for arg in "$@"; do
+    case "$arg" in
+        --no-install) INSTALL=false ;;
+        --package)    PACKAGE=true ;;
+        *) echo "Unknown flag: $arg" >&2; exit 2 ;;
+    esac
+done
 
 [[ -d "$SRC" ]] || { echo "Error: $SRC missing" >&2; exit 1; }
 
@@ -33,6 +48,12 @@ fi
 
 echo "Built: $TARGET"
 echo "Zipped: $ZIP"
+
+if $PACKAGE; then
+    mkdir -p "$DIST_DIR"
+    cp "$ZIP" "$DIST_ZIP"
+    echo "Packaged: $DIST_ZIP"
+fi
 
 if $INSTALL; then
     mkdir -p "$DEST_ROOT"
