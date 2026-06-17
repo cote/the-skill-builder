@@ -14,7 +14,7 @@ Follow these rules and check for this policy when making and modifying a skill.
 
 6. **SKILL.md frontmatter is spec-compliant.** Only fields from the Agent Skills spec: `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`. No invented fields. `name` matches the inner directory name exactly. `description` says what the skill does *and* when to use it.
 
-7. **Machine name is consistent everywhere.** Repo dir is `skill-<machine-name>`. Inner dir is `src/<machine-name>`. Frontmatter `name:` is `<machine-name>`. `build.sh` `SKILL_NAME` variable is `<machine-name>`. XDG namespace is `io.cote.ai.skill.<machine-name>`.
+7. **Machine name is consistent everywhere.** Repo dir is `skill-<machine-name>`. Inner dir is `src/<machine-name>`. Frontmatter `name:` is `<machine-name>`. `build.sh` `SKILL_NAME` variable is `<machine-name>`. XDG namespace is `io.cote.ai.skill.<package-name>`, where `<package-name>` is the machine name with hyphens converted to underscores (so the namespace stays a valid reverse-DNS / Java package identifier).
 
 8. **XDG namespace tiers are not collapsed.** Config / Data / State / Cache go to their respective XDG roots. State is not the same as cache.
 

@@ -31,6 +31,7 @@ Each skill has three names. They all derive from a single "machine name":
 | Inner skill dir | `src/<machine-name>` | `src/the-summarizer` |
 | Display name (H1, prose) | Title Case | `The Summarizer` |
 | Frontmatter `name:` | machine name | `the-summarizer` |
+| Package name (XDG component) | machine name with hyphens → underscores | `the_summarizer` |
 
 The display name doesn't have to match the machine name 1:1 — it's prose for humans. The machine name is what every file path, frontmatter field, and XDG namespace component uses.
 
@@ -72,7 +73,7 @@ Prompt and template files live **next to SKILL.md**, not in `references/`:
 
 6. **Write `build.sh`** — copy the template from `references/BUILD_SH_TEMPLATE.sh`, replacing `SKILL_NAME` with the machine name. `chmod u+x build.sh`.
 
-7. **Write `src/<machine-name>/SKILL.md`** — copy the template from `references/SKILL_MD_TEMPLATE.md`. Set frontmatter `name:` to the machine name, the H1 to the display name, and the XDG namespace to `io.cote.ai.skill.<machine-name>`.
+7. **Write `src/<machine-name>/SKILL.md`** — copy the template from `references/SKILL_MD_TEMPLATE.md`. Set frontmatter `name:` to the machine name, the H1 to the display name, and the XDG namespace to `io.cote.ai.skill.<package-name>` (see below).
 
 8. **Check POLICY.md.** Walk the policy and confirm each item passes. Apply to any scaffold *and* to any later edit of a skill.
 
@@ -94,14 +95,16 @@ The deployable unit is the **directory** `target/<machine-name>/`. The zip is pr
 
 ### XDG namespace
 
-All four tiers use `io.cote.ai.skill.<machine-name>`:
+All four tiers use `io.cote.ai.skill.<package-name>`:
 
 | What | Location |
 |------|----------|
-| Config | `~/.config/io.cote.ai.skill.<machine-name>/` |
-| Data | `~/.local/share/io.cote.ai.skill.<machine-name>/` |
-| State | `~/.local/state/io.cote.ai.skill.<machine-name>/` |
-| Cache | `~/.cache/io.cote.ai.skill.<machine-name>/` |
+| Config | `~/.config/io.cote.ai.skill.<package-name>/` |
+| Data | `~/.local/share/io.cote.ai.skill.<package-name>/` |
+| State | `~/.local/state/io.cote.ai.skill.<package-name>/` |
+| Cache | `~/.cache/io.cote.ai.skill.<package-name>/` |
+
+`<package-name>` is the machine name with hyphens converted to underscores, so the full namespace is a valid reverse-DNS / Java package identifier. Example: machine name `the-summarizer` → package name `the_summarizer` → `io.cote.ai.skill.the_summarizer`.
 
 Don't collapse state into cache.
 

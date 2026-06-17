@@ -9,6 +9,13 @@ metadata:
   version: "1.0"
 ---
 
+<!--
+  Placeholders to fill in:
+    SKILL_MACHINE_NAME  - lowercase, hyphens (matches src/<name>/ dir)
+    SKILL_DISPLAY_NAME  - Title Case prose
+    SKILL_PACKAGE_NAME  - SKILL_MACHINE_NAME with hyphens replaced by underscores
+-->
+
 # SKILL_DISPLAY_NAME
 
 ## Actions
@@ -23,7 +30,7 @@ metadata:
 
 | What | Location |
 |------|----------|
-| Config | `~/.config/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
-| Data | `~/.local/share/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
-| State | `~/.local/state/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
-| Cache | `~/.cache/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
+| Config | `~/.config/io.cote.ai.skill.SKILL_PACKAGE_NAME/` |
+| Data | `~/.local/share/io.cote.ai.skill.SKILL_PACKAGE_NAME/` |
+| State | `~/.local/state/io.cote.ai.skill.SKILL_PACKAGE_NAME/` |
+| Cache | `~/.cache/io.cote.ai.skill.SKILL_PACKAGE_NAME/` |
