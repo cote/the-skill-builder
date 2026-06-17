@@ -1,13 +1,5 @@
 #!/bin/bash
-# Assemble target/SKILL_NAME/, zip it, install into $SKILL_INSTALL_DIR
-# (default: ~/.claude/skills), and optionally copy the zip to dist/ as a
-# committed release artifact.
-#
-# Flags (combinable, any order):
-#   --no-install   Skip the install step.
-#   --package      Copy the zip to dist/<machine-name>.zip (the tracked
-#                  release artifact people can download directly).
-#
+# Build/package/install for SKILL_NAME.
 # Replace SKILL_NAME with the actual machine name before using.
 set -euo pipefail
 
@@ -19,16 +11,47 @@ TARGET="$TARGET_DIR/$SKILL_NAME"
 ZIP="$TARGET_DIR/$SKILL_NAME.zip"
 DIST_DIR="$ROOT/dist"
 DIST_ZIP="$DIST_DIR/$SKILL_NAME.zip"
+SBOM="$DIST_DIR/$SKILL_NAME.cdx.json"
 DEST_ROOT="${SKILL_INSTALL_DIR:-$HOME/.claude/skills}"
 DEST="$DEST_ROOT/$SKILL_NAME"
 
-INSTALL=true
+usage() {
+    cat <<USAGE
+Usage: ./build.sh [flags]
+
+Build $SKILL_NAME skill. Flags are opt-in and combinable.
+
+Flags:
+  --install      Build, zip, and copy into \$SKILL_INSTALL_DIR
+                 (default: ~/.claude/skills/). Makes the skill
+                 immediately discoverable by Claude Code.
+  --package      Build, zip, copy to dist/$SKILL_NAME.zip, and
+                 emit a CycloneDX SBOM at dist/$SKILL_NAME.cdx.json.
+                 Tracked release artifacts.
+  -h, --help     Show this help and exit.
+
+Examples:
+  ./build.sh --install                Local dev install.
+  ./build.sh --package                Refresh the committed release artifacts.
+  ./build.sh --install --package      Both.
+
+See README.md for the release process.
+USAGE
+}
+
+INSTALL=false
 PACKAGE=false
+
+if [[ $# -eq 0 ]]; then
+    usage; exit 0
+fi
+
 for arg in "$@"; do
     case "$arg" in
-        --no-install) INSTALL=false ;;
+        --install)    INSTALL=true ;;
         --package)    PACKAGE=true ;;
-        *) echo "Unknown flag: $arg" >&2; exit 2 ;;
+        -h|--help)    usage; exit 0 ;;
+        *) echo "Unknown flag: $arg" >&2; echo; usage; exit 2 ;;
     esac
 done
 
@@ -57,7 +80,6 @@ if $PACKAGE; then
     # Emit a CycloneDX SBOM alongside the zip.
     # Fill in the description and any runtime/build dependencies in the
     # "components" array (use scope "optional" for optional deps).
-    SBOM="$DIST_DIR/$SKILL_NAME.cdx.json"
     ZIP_SHA="$(shasum -a 256 "$DIST_ZIP" | awk '{print $1}')"
     TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
     UUID="$(uuidgen | tr 'A-Z' 'a-z')"

@@ -77,11 +77,11 @@ Prompt and template files live **next to SKILL.md**, not in `references/`:
 
 9. **Git init** the repo and make an initial commit ("Scaffold <machine-name> skill").
 
-10. **Smoke test** by running `./build.sh --no-install` — confirms the build path works without touching `~/.claude/skills/`.
+10. **Smoke test** the build by running `./build.sh` with no flags — it prints help. Then run with no real side effects… actually, since flags are opt-in, you can just build by running an action flag in step 11.
 
-11. **Deploy** by running `./build.sh` (no flag). It copies `target/<machine-name>/` into `$SKILL_INSTALL_DIR` (defaults to `~/.claude/skills/`), making the skill immediately discoverable by Claude Code. Set `SKILL_INSTALL_DIR` in the environment to deploy somewhere else.
+11. **Deploy** by running `./build.sh --install`. It copies `target/<machine-name>/` into `$SKILL_INSTALL_DIR` (defaults to `~/.claude/skills/`), making the skill immediately discoverable by Claude Code. Set `SKILL_INSTALL_DIR` in the environment to deploy somewhere else.
 
-12. **Package a release** with `./build.sh --package`. This copies the zip to `dist/<machine-name>.zip`, which is tracked in git so users can download it directly from GitHub without cloning the repo. Re-run `--package` whenever you cut a release; commit the updated zip.
+12. **Package a release** with `./build.sh --package`. This copies the zip to `dist/<machine-name>.zip` and emits a CycloneDX SBOM at `dist/<machine-name>.cdx.json`. Both are tracked in git so users can download them directly from GitHub. Re-run `--package` whenever you cut a release; commit the updated artifacts.
 
 ## Modifying an existing skill
 
@@ -91,10 +91,11 @@ When editing a skill (yours or someone else's), re-walk POLICY.md before you fin
 
 ### Combined build.sh
 
-One script at the repo root does build + zip + install. Flags:
+One script at the repo root does build + zip + install. All actions are **opt-in**; running with no flags (or `-h`/`--help`) just prints usage. Flags are combinable:
 
-- `--no-install` — skip copying into `$SKILL_INSTALL_DIR`.
-- `--package` — also copy the zip to `dist/<machine-name>.zip` and emit a CycloneDX SBOM at `dist/<machine-name>.cdx.json`. Both are tracked release artifacts people can download directly from GitHub without cloning.
+- `--install` — copy the built skill into `$SKILL_INSTALL_DIR`.
+- `--package` — copy the zip to `dist/<machine-name>.zip` and emit a CycloneDX SBOM at `dist/<machine-name>.cdx.json`. Both are tracked release artifacts people can download directly from GitHub without cloning.
+- `-h`, `--help` — show usage.
 
 The deployable unit is the **directory** `target/<machine-name>/`. The zip is `target/<machine-name>.zip`; `dist/<machine-name>.zip` is a committed copy for distribution.
 
@@ -105,7 +106,7 @@ The deployable unit is the **directory** `target/<machine-name>/`. The zip is `t
 Validate it with:
 
 ```bash
-cyclonedx-cli validate --input-file dist/<machine-name>.cdx.json
+cyclonedx validate --input-file dist/<machine-name>.cdx.json
 ```
 
 (Optional, enterprise theater) Sign and verify:
