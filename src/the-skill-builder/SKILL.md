@@ -1,6 +1,6 @@
 ---
 name: the-skill-builder
-description: The Skill Builder. Scaffolds a new standalone Claude Code skill. Use when asked to make a new skill, start a new skill, or scaffold a skill repo.
+description: Scaffolds a new standalone Claude Code /Agent skill. Use when asked to make a new skill, start a new skill, modify existing skill, or scaffold a skill repo.
 compatibility: Requires bash and zip.
 metadata:
   author: cote
@@ -13,11 +13,13 @@ Scaffolds a new skill repo using the standalone layout, and applies the policy i
 
 ## When to use
 
-When the user asks to "make a new skill", "scaffold a skill", "start a new skill called X", or similar.
+When the user asks to "make a new skill", "scaffold a skill", "start a new skill called X", or "change/update/modify the skill," or similar.
 
 ## Naming convention
 
-Each skill has three names. They all derive from a single "machine name":
+"Machine name" means **machine-friendly name** — the lowercase-hyphenated identifier safe to use in file paths, frontmatter, and shell variables.
+
+Each skill has three names. They all derive from a single machine name:
 
 | Name | Form | Example |
 |------|------|---------|
@@ -76,6 +78,8 @@ Prompt and template files live **next to SKILL.md**, not in `references/`:
 
 10. **Smoke test** by running `./build.sh --no-install` — confirms the build path works without touching `~/.claude/skills/`.
 
+11. **Deploy** by running `./build.sh` (no flag). It copies `target/<machine-name>/` into `$SKILL_INSTALL_DIR` (defaults to `~/.claude/skills/`), making the skill immediately discoverable by Claude Code. Set `SKILL_INSTALL_DIR` in the environment to deploy somewhere else.
+
 ## Modifying an existing skill
 
 When editing a skill (yours or someone else's), re-walk POLICY.md before you finish. The policy applies on every change, not just on creation.
@@ -100,6 +104,8 @@ All four tiers use `io.cote.ai.skill.<package-name>`:
 | Cache | `~/.cache/io.cote.ai.skill.<package-name>/` |
 
 `<package-name>` is the machine name with hyphens converted to underscores, so the full namespace is a valid reverse-DNS / Java package identifier. Example: machine name `the-summarizer` → package name `the_summarizer` → `io.cote.ai.skill.the_summarizer`.
+
+The default reverse-DNS prefix is `io.cote.ai.skill.` but the user can override it (e.g. `com.acme.skill.`, `dev.example.skills.`). If they don't say, use the default.
 
 Don't collapse state into cache.
 
