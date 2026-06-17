@@ -1,5 +1,5 @@
 ---
-name: SKILL_NAME
+name: SKILL_MACHINE_NAME
 description: >
   What this skill does and when to use it. Include the trigger phrases the
   user is likely to say so Claude picks it up.
@@ -9,7 +9,7 @@ metadata:
   version: "1.0"
 ---
 
-# SKILL_NAME
+# SKILL_DISPLAY_NAME
 
 ## Actions
 
@@ -23,7 +23,7 @@ metadata:
 
 | What | Location |
 |------|----------|
-| Config | `~/.config/io.cote.ai.skill.SKILL_NAME/` |
-| Data | `~/.local/share/io.cote.ai.skill.SKILL_NAME/` |
-| State | `~/.local/state/io.cote.ai.skill.SKILL_NAME/` |
-| Cache | `~/.cache/io.cote.ai.skill.SKILL_NAME/` |
+| Config | `~/.config/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
+| Data | `~/.local/share/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
+| State | `~/.local/state/io.cote.ai.skill.SKILL_MACHINE_NAME/` |
+| Cache | `~/.cache/io.cote.ai.skill.SKILL_MACHINE_NAME/` |

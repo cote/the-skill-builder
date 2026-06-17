@@ -1,9 +1,9 @@
 #!/bin/bash
-# Assemble target/skill-builder/, zip it, and install into $SKILL_INSTALL_DIR
+# Assemble target/the-skill-builder/, zip it, and install into $SKILL_INSTALL_DIR
 # (default: ~/.claude/skills). Pass --no-install to skip the install step.
 set -euo pipefail
 
-SKILL_NAME="skill-builder"
+SKILL_NAME="the-skill-builder"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 SRC="$ROOT/src/$SKILL_NAME"
 TARGET_DIR="$ROOT/target"
