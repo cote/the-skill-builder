@@ -1,6 +1,7 @@
 ---
 name: the-skill-builder
 description: Scaffolds a new standalone Claude Code /Agent skill. Use when asked to make a new skill, start a new skill, modify existing skill, or scaffold a skill repo.
+license: MIT
 compatibility: Requires bash and zip.
 metadata:
   author: cote
