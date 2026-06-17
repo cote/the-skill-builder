@@ -1,8 +1,6 @@
 # skill-builder
 
-A skill that knows how to scaffold a new skill following Coté's standalone-skill conventions: src/target layout, root `build.sh` that builds + zips + installs, XDG paths in the `io.cote.ai.skill.<name>` namespace, prompt/template variants alongside SKILL.md.
-
-Self-contained. No PII scanning, no audit, no governance - just the layout and the build glue.
+A skill that scaffolds a new standalone Claude Code skill: `src/`/`target/` layout, a root `build.sh` that builds + zips + installs, and SKILL.md with XDG paths and prompt/template variant conventions.
 
 ## Install
 
